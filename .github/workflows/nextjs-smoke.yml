@@ -1,0 +1,45 @@
+name: Next.js starter build & lockfile
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - README.md
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  validate-starter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: https://registry.npmjs.org
+      - name: Create deterministic lockfile if missing
+        run: |
+          if [ ! -f package-lock.json ]; then
+            npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          fi
+      - name: Install pinned dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build Next.js static export
+        run: npm run build
+      - name: Verify generated Next.js export
+        run: |
+          test -s out/index.html
+          grep -q 'testsdkpro-nextjs-v1' out/index.html
+          test -s public/_aisdk-smoke.json
+      - name: Commit dependency lockfile
+        if: success()
+        run: |
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: lock Next.js starter dependencies"
+            git push origin HEAD:main
+          fi

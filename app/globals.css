@@ -1,0 +1,12 @@
+:root {color-scheme:dark;font-family:Arial,Helvetica,sans-serif;background:#050505;color:#f5f5f5}
+* {box-sizing:border-box}
+body{margin:0}
+a{color:inherit}
+.page{min-height:100vh;max-width:850px;margin:0 auto;padding:clamp(45px,10vw,125px) 24px;display:flex;flex-direction:column;align-items:flex-start}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:#a8a8a8;display:flex;align-items:center;gap:9px}
+.dot{width:8px;height:8px;border-radius:50%;background:#f00;display:inline-block}
+h1{font-size:clamp(50px,12vw,100px);letter-spacing:-.07em;font-weight:700;line-height:1;margin:22px 0}
+p{font-size:clamp(17px,2.5vw,22px);line-height:1.6;color:#aaa;max-width:690px}
+.pill{display:inline-block;border:1px solid #393939;border-radius:999px;padding:11px 17px;color:#ddd;font-size:13px;margin:14px 0 35px}
+.links{display:flex;flex-wrap:wrap;gap:12px}.links a{text-decoration:none;padding:13px 16px;border:1px solid #444;border-radius:9px}.links a:hover{border-color:#f00}
+footer{border-top:1px solid #242424;color:#777;margin-top:95px;padding-top:25px;width:100%;font-size:13px}
